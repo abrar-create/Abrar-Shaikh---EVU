@@ -22,11 +22,18 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
       const session = await response.json();
       
       if (session.error) {
-        alert(session.error);
+        console.error('Stripe Error:', session.error);
+        if (session.error === "Stripe is not configured.") {
+          window.location.href = `/success?session_id=mock_session_${plan.id}&plan=${plan.name}`;
+        } else {
+          alert(session.error);
+        }
         return;
       }
 
-      window.location.href = `/success?session_id=mock_session_${plan.id}`;
+      if (session.id) {
+        window.location.href = `/success?session_id=${session.id}&plan=${plan.name}`;
+      }
     } catch (error) {
       console.error('Checkout error:', error);
       alert('Something went wrong. Please try again.');
@@ -46,11 +53,11 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
           />
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotateX: -10, y: 40 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, rotateX: 10, y: 40 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-            className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,1)] depth-shadow"
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 40 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="relative w-full max-w-2xl bg-[#050505] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,1)]"
           >
             <button 
               onClick={onClose}
@@ -60,13 +67,13 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
             </button>
 
             <div className="p-10 md:p-16">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-14 h-14 bg-accent/20 rounded-2xl flex items-center justify-center">
-                  <ShieldCheck className="w-8 h-8 text-accent" />
+              <div className="flex items-center gap-6 mb-12">
+                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
+                  <Zap className="w-8 h-8 text-accent" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-black text-white tracking-tight">Start your engine.</h2>
-                  <p className="text-gray-500 font-medium">Select a plan to begin your onboarding.</p>
+                  <h2 className="text-4xl font-black text-white tracking-tight leading-none mb-2">Start your engine.</h2>
+                  <p className="text-gray-500 font-medium tracking-tight">Select a plan to begin your onboarding.</p>
                 </div>
               </div>
 
@@ -80,23 +87,20 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                     onClick={() => handleSubscribe(plan)}
                     className={`text-left p-8 rounded-[2rem] border transition-all group relative overflow-hidden ${
                       plan.popular 
-                        ? 'bg-accent/5 border-accent/30 hover:border-accent' 
-                        : 'bg-white/5 border-white/10 hover:border-white/20'
+                        ? 'bg-accent/[0.03] border-accent/30 hover:border-accent' 
+                        : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                   >
                     {plan.popular && (
-                      <div className="absolute top-4 right-4 bg-accent text-black text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full">
+                      <div className="absolute top-4 right-4 bg-accent text-black text-[8px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full">
                         Popular
                       </div>
                     )}
-                    <h3 className="text-xl font-black text-white mb-1">{plan.name}</h3>
-                    <p className="text-xs text-gray-500 mb-4 font-bold uppercase tracking-widest">{plan.desc}</p>
+                    <h3 className="text-2xl font-black text-white mb-1 tracking-tight">{plan.name}</h3>
+                    <p className="text-[10px] text-gray-500 mb-6 font-black uppercase tracking-[0.2em]">{plan.desc}</p>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-white">${plan.price.toLocaleString()}</span>
-                      <span className="text-gray-500 text-xs font-bold">/mo</span>
-                    </div>
-                    <div className="mt-6 flex items-center gap-2 text-accent text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                      Select Plan <ArrowRight className="w-3 h-3" />
+                      <span className="text-4xl font-black text-white tracking-tighter">${plan.price.toLocaleString()}</span>
+                      <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">/mo</span>
                     </div>
                   </button>
                 ))}

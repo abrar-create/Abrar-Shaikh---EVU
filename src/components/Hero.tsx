@@ -15,9 +15,9 @@ export default function Hero({ onGetStarted }: { onGetStarted: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-black text-accent mb-12 tracking-[0.3em] uppercase shadow-[0_0_20px_rgba(0,255,153,0.1)]"
+          className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-black text-accent mb-12 tracking-[0.4em] uppercase shadow-[0_0_30px_rgba(0,255,153,0.15)] backdrop-blur-xl"
         >
-          <Zap className="w-3.5 h-3.5 fill-accent" />
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
           <span>Engineered for the 1%</span>
         </motion.div>
 
@@ -26,14 +26,17 @@ export default function Hero({ onGetStarted }: { onGetStarted: () => void }) {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-            className="text-7xl md:text-9xl lg:text-[10rem] font-black tracking-tighter text-white mb-12 leading-[0.85] text-balance"
+            className="text-7xl md:text-9xl lg:text-[11rem] font-black tracking-[-0.05em] text-white mb-12 leading-[0.8] text-balance"
           >
             Your GTM <br />
-            <span className="text-gradient relative">
+            <span className="text-accent relative inline-block">
               Engine.
-              <svg className="absolute -bottom-4 left-0 w-full h-4 text-accent/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="2" />
-              </svg>
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 1, delay: 1 }}
+                className="absolute -bottom-4 left-0 h-2 bg-accent/20 rounded-full" 
+              />
             </span>
           </motion.h1>
         </motion.div>
@@ -42,7 +45,7 @@ export default function Hero({ onGetStarted }: { onGetStarted: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="max-w-3xl mx-auto text-xl md:text-2xl text-gray-400 mb-16 leading-relaxed font-medium text-balance"
+          className="max-w-3xl mx-auto text-xl md:text-2xl text-gray-500 mb-16 leading-relaxed font-medium text-balance tracking-tight"
         >
           We don't do "marketing." We build high-velocity acquisition systems for founders who value speed over bureaucracy. Elite execution. senior talent. flat monthly fee.
         </motion.p>

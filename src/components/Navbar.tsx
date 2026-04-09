@@ -27,48 +27,48 @@ export default function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b',
-        isScrolled 
-          ? 'bg-black/90 backdrop-blur-2xl border-white/10 py-4' 
-          : 'bg-transparent border-transparent py-6'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
+        isScrolled ? 'py-4' : 'py-8'
       )}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center font-black text-black text-2xl shadow-[0_0_20px_rgba(0,255,153,0.3)] group-hover:scale-110 transition-transform">
-            g
+      <div className="max-w-7xl mx-auto px-6">
+        <div className={cn(
+          "flex items-center justify-between px-8 py-4 rounded-2xl border transition-all duration-500 backdrop-blur-xl",
+          isScrolled 
+            ? "bg-black/80 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]" 
+            : "bg-transparent border-transparent"
+        )}>
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center font-black text-black text-2xl shadow-[0_0_20px_rgba(0,255,153,0.3)] group-hover:scale-110 transition-transform duration-500">
+              g
+            </div>
+            <span className="text-2xl font-black tracking-[-0.05em] text-white">g2m.xyz</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-12">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={cn(
+                  "text-[10px] font-black uppercase tracking-[0.3em] transition-all hover:text-white",
+                  location.pathname === link.href ? "text-accent" : "text-gray-500"
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
-          <span className="text-2xl font-black tracking-tighter text-white">g2m.xyz</span>
-        </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className={cn(
-                "text-sm font-bold tracking-tight transition-all hover:text-accent",
-                location.pathname === link.href ? "text-accent" : "text-gray-400"
-              )}
+          <div className="hidden md:flex items-center gap-8">
+            <button 
+              onClick={onGetStarted}
+              className="bg-white text-black px-8 py-3 rounded-xl text-sm font-black hover:bg-accent transition-all hover:shadow-[0_0_30px_rgba(0,255,153,0.3)] active:scale-95"
             >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-6">
-          <button className="text-sm font-bold text-gray-400 hover:text-white transition-colors">
-            Client Login
-          </button>
-          <button 
-            onClick={onGetStarted}
-            className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-black hover:bg-accent hover:shadow-[0_0_20px_rgba(0,255,153,0.4)] transition-all flex items-center gap-2 group"
-          >
-            Get Started
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
+              Get Started
+            </button>
+          </div>
 
         {/* Mobile Toggle */}
         <button
@@ -78,6 +78,7 @@ export default function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
           {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
+    </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
